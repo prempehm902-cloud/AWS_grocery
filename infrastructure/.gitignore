@@ -1,13 +1,13 @@
-
-
+# IDE files
 .idea/aws.xml
+
+# Frontend build artifacts
 frontend/frontend-build.zip
 frontend/temp_extract/
 frontend/src/config.js~
+
+# Python virtual environment
 venv/
-
-
-
 
 # Terraform files to ignore
 infrastructure/.terraform/
@@ -20,12 +20,3 @@ terraform.tfstate.backup
 *.tfplan
 terraform.tfvars
 
-terraform.tfstate
-terraform.tfstate.backup
-terraform.tfstate
-terraform.tfstate.backup
-terraform.tfstate
-terraform.tfstate.backup
-
-infrastructure_backup/
->>>>>>> 46174a1 (Move Terraform infrastructure into main repo and clean up ignored files)
