@@ -7,7 +7,9 @@ AWS Grocery is a cloud-based application deployed on AWS. It features a fully ma
 ---
 ## Architecture Diagram
 
-[View full-size architecture diagram](docs/Infrastructure_AWS_Grocery.png)
+## Infrastructure
+
+[![Infrastructure Diagram](infrastructure.png)](https://github.com/prempehm902-cloud/AWS_Grocery/tree/main/infrastructure)
 
 
 *Diagram shows the VPC, subnets, IGW, EC2, RDS, and S3 bucket.*
