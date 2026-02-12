@@ -20,3 +20,6 @@ terraform.tfstate.backup
 *.tfplan
 terraform.tfvars
 
+.idea/
+.idea/
+.idea/
