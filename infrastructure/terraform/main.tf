@@ -11,19 +11,24 @@ provider "aws" {
   region = var.region
 }
 
+##############################
 # VPC
+##############################
+
 resource "aws_vpc" "main" {
   cidr_block = var.vpc_cidr
   tags       = { Name = "main-vpc" }
 }
 
-# INTERNET GATEWAY
 resource "aws_internet_gateway" "main" {
   vpc_id = aws_vpc.main.id
   tags   = { Name = "main-igw" }
 }
 
-# PUBLIC SUBNET
+##############################
+# Public Subnet
+##############################
+
 resource "aws_subnet" "public" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = var.public_subnet_cidr
@@ -32,47 +37,53 @@ resource "aws_subnet" "public" {
   tags                    = { Name = "public-subnet" }
 }
 
-# ROUTE TABLE
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
   tags   = { Name = "public-route-table" }
 }
 
-# ROUTE TO INTERNET
 resource "aws_route" "internet" {
   route_table_id         = aws_route_table.public.id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_internet_gateway.main.id
 }
 
-# ASSOCIATE PUBLIC ROUTE
 resource "aws_route_table_association" "public_assoc" {
   subnet_id      = aws_subnet.public.id
   route_table_id = aws_route_table.public.id
 }
 
-# PRIVATE SUBNETS
+##############################
+# Private Subnets
+##############################
+
 resource "aws_subnet" "private_subnet_1" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.private_subnet_1_cidr
   availability_zone = var.private_az_1
-  tags              = { Name = "Private Subnet-1" }
+  tags              = { Name = "private-subnet-1" }
 }
 
 resource "aws_subnet" "private_subnet_2" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.private_subnet_2_cidr
   availability_zone = var.private_az_2
-  tags              = { Name = "Private Subnet-2" }
+  tags              = { Name = "private-subnet-2" }
 }
 
-# DB SUBNET GROUP
+##############################
+# RDS Subnet Group
+##############################
+
 resource "aws_db_subnet_group" "rds_subnet_group" {
   name       = var.db_subnet_group_name
   subnet_ids = [aws_subnet.private_subnet_1.id, aws_subnet.private_subnet_2.id]
 }
 
-# SECURITY GROUP FOR APP
+##############################
+# Security Group for EC2
+##############################
+
 resource "aws_security_group" "app1_sg" {
   name        = "app1-sg"
   description = "Allow SSH, HTTP, and Flask app traffic"
@@ -108,7 +119,10 @@ resource "aws_security_group" "app1_sg" {
   }
 }
 
-# IAM ROLE FOR EC2
+##############################
+# IAM Role for EC2
+##############################
+
 resource "aws_iam_role" "grocery_ec2_role" {
   name = "grocery_ec2_role"
   assume_role_policy = jsonencode({
@@ -120,7 +134,6 @@ resource "aws_iam_role" "grocery_ec2_role" {
       Principal = { Service = "ec2.amazonaws.com" }
     }]
   })
-
   tags = { Name = "terraform_iam_role" }
 }
 
@@ -134,7 +147,10 @@ resource "aws_iam_instance_profile" "joy_ec2_profile" {
   role = aws_iam_role.grocery_ec2_role.name
 }
 
-# EC2 INSTANCE
+##############################
+# EC2 Instance
+##############################
+
 resource "aws_instance" "app_server" {
   ami                    = var.ec2_ami
   instance_type          = var.instance_type
@@ -143,7 +159,10 @@ resource "aws_instance" "app_server" {
   subnet_id              = aws_subnet.public.id
 }
 
-# SECURITY GROUP FOR RDS
+##############################
+# Security Group for RDS
+##############################
+
 resource "aws_security_group" "rds_sg" {
   name        = "joy-rds-sg"
   description = "Security group for RDS instance"
@@ -166,7 +185,10 @@ resource "aws_security_group" "rds_sg" {
   }
 }
 
-# RDS INSTANCE
+##############################
+# RDS Instance
+##############################
+
 resource "aws_db_instance" "app_db" {
   allocated_storage      = 20
   engine                 = "postgres"
@@ -180,7 +202,10 @@ resource "aws_db_instance" "app_db" {
   db_subnet_group_name   = aws_db_subnet_group.rds_subnet_group.name
 }
 
-# SNS topic and subscription
+##############################
+# SNS Topic & Subscription
+##############################
+
 resource "aws_sns_topic" "topic" {
   name = "app_server-CPU_Utilization_alert"
 }
@@ -191,7 +216,10 @@ resource "aws_sns_topic_subscription" "topic_email_subscription" {
   endpoint  = var.sns_email
 }
 
-# CloudWatch Alarm for EC2
+##############################
+# CloudWatch Alarm
+##############################
+
 resource "aws_cloudwatch_metric_alarm" "my_watch" {
   alarm_name                = "GroceryAlarm"
   comparison_operator       = "GreaterThanThreshold"
@@ -210,7 +238,11 @@ resource "aws_cloudwatch_metric_alarm" "my_watch" {
   }
 }
 
-# Optional: Dynamic AMI lookup (uncomment to use instead of var.ec2_ami)
+##############################
+# Optional: Dynamic AMI lookup
+##############################
+
+# Uncomment to use the latest Ubuntu AMI automatically
 # data "aws_ami" "ubuntu" {
 #   most_recent = true
 #   owners      = ["099720109477"] # Canonical Ubuntu
@@ -219,3 +251,4 @@ resource "aws_cloudwatch_metric_alarm" "my_watch" {
 #     values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
 #   }
 # }
+
