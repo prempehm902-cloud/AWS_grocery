@@ -34,6 +34,11 @@ resource "aws_instance" "app_server" {
 
   # Optional IAM profile
   iam_instance_profile = var.iam_instance_profile
+
+  # Optional: assign a name tag
+  tags = {
+    Name = "AppServer"
+  }
 }
 
 # Outputs
