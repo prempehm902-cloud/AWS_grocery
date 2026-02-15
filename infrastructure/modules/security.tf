@@ -1,21 +1,10 @@
-# Variables
-variable "vpc_id" {
-  description = "VPC ID where the security group will be created"
-  type        = string
-}
+# EC2 Security Group
+resource "aws_security_group" "app1_sg" {
+  name        = "app1-sg"
+  description = "Allow SSH, HTTP, Flask"
+  vpc_id      = aws_vpc.main.id
 
-variable "my_ip" {
-  description = "Your public IP address allowed for SSH, in CIDR format (e.g., 123.45.67.89/32)"
-  type        = string
-}
-
-# Security Group for the application
-resource "aws_security_group" "app_sg" {
-  name        = "app-sg"
-  description = "Allow SSH, HTTP, and Flask app traffic"
-  vpc_id      = var.vpc_id
-
-  # SSH ingress (restricted to your IP)
+  # 🔐 Restrict SSH to YOUR IP
   ingress {
     from_port   = 22
     to_port     = 22
@@ -23,15 +12,6 @@ resource "aws_security_group" "app_sg" {
     cidr_blocks = [var.my_ip]
   }
 
-  # HTTP ingress
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  # Flask app ingress
   ingress {
     from_port   = 5000
     to_port     = 5000
@@ -39,7 +19,13 @@ resource "aws_security_group" "app_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # Allow all outbound traffic
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -48,7 +34,22 @@ resource "aws_security_group" "app_sg" {
   }
 }
 
-# Outputs
-output "app_sg_id" {
-  value = aws_security_group.app_sg.id
+# RDS Security Group
+resource "aws_security_group" "rds_sg" {
+  name   = "joy-rds-sg"
+  vpc_id = aws_vpc.main.id
+
+  ingress {
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
+    security_groups = [aws_security_group.app1_sg.id]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
