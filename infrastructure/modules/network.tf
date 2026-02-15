@@ -1,28 +1,48 @@
+# -----------------------------------
 # VPC
+# -----------------------------------
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
-  tags = { Name = "main-vpc" }
+
+  tags = {
+    Name = "main-vpc"
+  }
 }
 
+# -----------------------------------
 # Internet Gateway
+# -----------------------------------
 resource "aws_internet_gateway" "main" {
   vpc_id = aws_vpc.main.id
-  tags = { Name = "main-igw" }
+
+  tags = {
+    Name = "main-igw"
+  }
 }
 
+# -----------------------------------
 # Public Subnet
+# -----------------------------------
 resource "aws_subnet" "public" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = "10.0.1.0/24"
   map_public_ip_on_launch = true
   availability_zone       = "eu-central-1a"
-  tags = { Name = "public-subnet" }
+
+  tags = {
+    Name = "public-subnet"
+  }
 }
 
-# Route Table
+# -----------------------------------
+# Route Table + Internet Route
+# -----------------------------------
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
-  tags = { Name = "public-route-table" }
+
+  tags = {
+    Name = "public-route-table"
+  }
 }
 
 resource "aws_route" "internet" {
@@ -36,17 +56,29 @@ resource "aws_route_table_association" "public_assoc" {
   route_table_id = aws_route_table.public.id
 }
 
-# Private Subnets
+# -----------------------------------
+# Private Subnet 1 (for RDS)
+# -----------------------------------
 resource "aws_subnet" "private_subnet_1" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = "10.0.2.0/24"
   availability_zone = "eu-central-1b"
-  tags = { Name = "Private Subnet-1" }
+
+  tags = {
+    Name = "Private Subnet-1"
+  }
 }
 
+# -----------------------------------
+# Private Subnet 2 (for RDS)
+# -----------------------------------
 resource "aws_subnet" "private_subnet_2" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = "10.0.4.0/24"
   availability_zone = "eu-central-1c"
-  tags = { Name = "Private Subnet-2" }
+
+  tags = {
+    Name = "Private Subnet-2"
+  }
 }
+
