@@ -53,7 +53,7 @@ output "rds_security_group_id" {
 }
 
 ##############################
-# SNS & Monitoring
+# SNS & CloudWatch
 ##############################
 
 # SNS Topic ARN
@@ -89,3 +89,4 @@ output "private_subnet_ids" {
   description = "IDs of private subnets"
   value       = [aws_subnet.private_subnet_1.id, aws_subnet.private_subnet_2.id]
 }
+
