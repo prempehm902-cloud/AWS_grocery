@@ -14,7 +14,7 @@ Our system architecture includes the following components:
 - Amazon S3** for user avatar storage  
 - Docker** for application containerization  
 - VPC, subnets, security groups, and an Internet Gateway (IGW)** for secure networking  
-- Elastic Load Balancer (ELB)** to distribute incoming traffic  
+- Elastic Load Balancer (ELB)** distributes incoming application traffic across multiple targets for high availability.  
 
 All resources are provisioned and managed using **Terraform**, enabling repeatable, version-controlled deployments across environments.
 
@@ -157,7 +157,7 @@ Docker Prerequisites
 
 5. Your application should now be accessible on:
    
-   docker run --network host -e S3_BUCKET_NAME=grocerymate-avatars-premps -e S3_REGION=eu-central-1  -e USE_S3_STORAGE=true grocery mate
+   docker run --network host -e S3_BUCKET_NAME=grocerymate-avatars-premps -e S3_REGION=eu-central-1  -e USE_S3_STORAGE=true grocerymate-app
 
 
 6. Finally, Once the application is running, open your web browser and navigate to URL:
