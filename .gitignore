@@ -1,38 +1,22 @@
-# ========================
 # IDE files
-# ========================
-.idea/
-*.iml
 .idea/aws.xml
 
-# ========================
-# Frontend build artifacts & temp files
-# ========================
+# Frontend build artifacts
 frontend/frontend-build.zip
 frontend/temp_extract/
 frontend/src/config.js~
 
-# ========================
 # Python virtual environment
-# ========================
 venv/
 
-# ========================
 # Terraform files to ignore
-# ========================
-
-# Terraform state & plan files
+infrastructure/.terraform/
+infrastructure/terraform.tfstate
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
 *.tfstate
 *.tfstate.*
 *.tfplan
 terraform.tfvars
-terraform.tfstate
-terraform.tfstate.backup
-
-# Terraform directories
-.terraform/
-infrastructure/.terraform/
-
-# Backup folders (if relevant)
-infrastructure_backup/
 
