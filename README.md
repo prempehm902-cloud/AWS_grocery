@@ -17,6 +17,8 @@ All resources are provisioned and managed using Terraform, enabling repeatable, 
 ---
 ## Architecture Diagram
 
+
+AWS architecture diagram with VisualParadigm
 [![AWS Network Architecture](https://github.com/user-attachments/assets/8ef94db7-1c5a-4f15-8311-a99837670315)](https://github.com/prempehm902-cloud/AWS_Grocery/tree/main/infrastructure)
 
 
