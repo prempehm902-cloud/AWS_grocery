@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "avatars" {
-  bucket = "grocerymate-avatars-tabe2"
+  bucket = "grocerymate-avatars-premps"
 
   tags = {
     Name        = "grocerymate-avatars"
@@ -7,7 +7,6 @@ resource "aws_s3_bucket" "avatars" {
   }
 }
 
-# S3 Bucket Public Access Block (Block ALL public access)
 resource "aws_s3_bucket_public_access_block" "avatars" {
   bucket = aws_s3_bucket.avatars.id
 
