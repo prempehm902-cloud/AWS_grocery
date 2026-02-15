@@ -1,7 +1,6 @@
 ##############################
 # AWS Provider
 ##############################
-
 variable "region" {
   description = "AWS region to deploy resources"
   type        = string
@@ -10,7 +9,6 @@ variable "region" {
 ##############################
 # EC2 Variables
 ##############################
-
 variable "instance_type" {
   description = "EC2 instance type"
   type        = string
@@ -30,7 +28,6 @@ variable "iam_instance_profile" {
 ##############################
 # RDS Variables
 ##############################
-
 variable "db_name" {
   description = "Name of the PostgreSQL database"
   type        = string
@@ -62,7 +59,6 @@ variable "db_subnet_group_name" {
 ##############################
 # SNS / Monitoring
 ##############################
-
 variable "sns_email" {
   description = "Email address to receive CloudWatch SNS alerts"
   type        = string
@@ -71,7 +67,6 @@ variable "sns_email" {
 ##############################
 # VPC / Networking Variables
 ##############################
-
 variable "vpc_cidr" {
   description = "CIDR block for the VPC"
   type        = string
@@ -106,4 +101,3 @@ variable "private_az_2" {
   description = "Availability zone for private subnet 2"
   type        = string
 }
-
