@@ -4,6 +4,7 @@
 
 AWS Grocery is a cloud-based application deployed on AWS. It features a fully managed and scalable infrastructure, including an EC2 instance, PostgreSQL RDS database, and an S3 bucket for storing user avatars. The application is containerized using Docker, ensuring consistent deployment across environments. A secure network setup is implemented using a VPC, subnets, security groups, and an internet gateway. Terraform is used for automated provisioning and management of all infrastructure components, enabling version-controlled, repeatable deployments.
 
+
 ##The infrastructure includes
 
 Our system architecture includes the following components:
@@ -17,14 +18,10 @@ Our system architecture includes the following components:
 
 All resources are provisioned and managed using **Terraform**, enabling repeatable, version-controlled deployments across environments.
 
+
 ### Architecture Diagram
 
 The diagram below provides a visual overview of the infrastructure:
-
-[![AWS Architecture Diagram](https://github.com/user-attachments/assets/a2164bd9-8bbd-4b7f-bc8f-75084fbb86ee =600x400)](https://github.com/user-attachments/assets/a2164bd9-8bbd-4b7f-bc8f-75084fbb86ee)
-
----
-## Architecture Diagram
 
 <img width="1536" height="1024" alt="AWS architecture diagram with VisualParadigm" src="https://github.com/user-attachments/assets/a2164bd9-8bbd-4b7f-bc8f-75084fbb86ee" />
 
@@ -44,7 +41,6 @@ The diagram below provides a visual overview of the infrastructure:
 
 ---
 ## Prerequisites
-
 
 Ensure the following tools and accounts are available:
 -Terraform >= 1.5.0
