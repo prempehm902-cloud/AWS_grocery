@@ -9,12 +9,12 @@ AWS Grocery is a cloud-based application deployed on AWS. It features a fully ma
 
 Our system architecture includes the following components:
 
-- **EC2** for application hosting  
-- **Amazon RDS (PostgreSQL)** for persistent data storage  
-- **Amazon S3** for user avatar storage  
-- **Docker** for application containerization  
-- **VPC, subnets, security groups, and an Internet Gateway (IGW)** for secure networking  
-- **Elastic Load Balancer (ELB)** to distribute incoming traffic  
+- EC2** for application hosting  
+- Amazon RDS (PostgreSQL)** for persistent data storage  
+- Amazon S3** for user avatar storage  
+- Docker** for application containerization  
+- VPC, subnets, security groups, and an Internet Gateway (IGW)** for secure networking  
+- Elastic Load Balancer (ELB)** to distribute incoming traffic  
 
 All resources are provisioned and managed using **Terraform**, enabling repeatable, version-controlled deployments across environments.
 
