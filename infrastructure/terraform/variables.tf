@@ -1,11 +1,15 @@
+# ---------------------------
 # AWS region
+# ---------------------------
 variable "region" {
   description = "AWS region to deploy resources"
   type        = string
   default     = "eu-central-1"
 }
 
+# ---------------------------
 # EC2 instance
+# ---------------------------
 variable "instance_type" {
   description = "EC2 instance type"
   type        = string
@@ -18,21 +22,21 @@ variable "ec2_ami" {
   default     = "ami-0a6793a25df710b06"
 }
 
-# Your public IP for SSH
-variable "my_ip" {
-  description = "Your public IP for SSH access"
-  type        = string
-  default     = "172.31.31.6"
-}
-
-# Key pair assigned at launch
 variable "ec2_key_name" {
   description = "EC2 key pair name"
   type        = string
   default     = "Pee_masterschool"
 }
 
+variable "my_ip" {
+  description = "Your public IP for SSH access"
+  type        = string
+  default     = "172.31.31.6"
+}
+
+# ---------------------------
 # RDS / PostgreSQL
+# ---------------------------
 variable "db_name" {
   description = "Database name"
   type        = string
@@ -62,20 +66,32 @@ variable "db_subnet_group_name" {
   type        = string
 }
 
+variable "db_endpoint" {
+  description = "RDS endpoint for grocery-db"
+  type        = string
+  default     = "grocery-db.cfqgiacie03r.eu-central-1.rds.amazonaws.com"
+}
+
+# ---------------------------
 # SNS email
+# ---------------------------
 variable "sns_email" {
   description = "Email for CloudWatch alerts"
   type        = string
 }
 
+# ---------------------------
 # VPC
+# ---------------------------
 variable "vpc_cidr" {
   description = "CIDR block for VPC"
   type        = string
   default     = "10.0.0.0/16"
 }
 
+# ---------------------------
 # Public subnet
+# ---------------------------
 variable "public_subnet_cidr" {
   description = "Public subnet CIDR"
   type        = string
@@ -88,7 +104,9 @@ variable "public_az" {
   default     = "eu-central-1a"
 }
 
+# ---------------------------
 # Private subnets
+# ---------------------------
 variable "private_subnet_1_cidr" {
   description = "Private subnet 1 CIDR"
   type        = string
@@ -113,16 +131,8 @@ variable "private_az_2" {
   default     = "eu-central-1c"
 }
 
-# Subnet ID for this instance
 variable "ec2_subnet_id" {
   description = "Subnet ID where EC2 instance will be launched"
   type        = string
   default     = "subnet-04fa2d03241c5b041"
-}
-
-# RDS Endpoint
-variable "db_endpoint" {
-  description = "RDS endpoint for grocery-db"
-  type        = string
-  default     = "grocery-db.cfqgiacie03r.eu-central-1.rds.amazonaws.com"
 }
