@@ -92,14 +92,13 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
 }
 
 # ---------------------------
-# Security Group for EC2
+# Security Groups
 # ---------------------------
 resource "aws_security_group" "app1_sg" {
   name        = "app1-sg"
   description = "Allow SSH, HTTP, and Flask traffic"
   vpc_id      = aws_vpc.main.id
 
-  # SSH access only from your IP
   ingress {
     from_port   = 22
     to_port     = 22
@@ -107,7 +106,6 @@ resource "aws_security_group" "app1_sg" {
     cidr_blocks = [var.my_ip]
   }
 
-  # HTTP
   ingress {
     from_port   = 80
     to_port     = 80
@@ -115,7 +113,6 @@ resource "aws_security_group" "app1_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # Flask app port
   ingress {
     from_port   = 5000
     to_port     = 5000
@@ -123,7 +120,6 @@ resource "aws_security_group" "app1_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # Allow all outbound traffic
   egress {
     from_port   = 0
     to_port     = 0
@@ -132,9 +128,6 @@ resource "aws_security_group" "app1_sg" {
   }
 }
 
-# ---------------------------
-# Security Group for RDS
-# ---------------------------
 resource "aws_security_group" "rds_sg" {
   name        = "rds-sg"
   description = "Allow PostgreSQL from EC2"
@@ -192,7 +185,7 @@ resource "aws_iam_instance_profile" "ec2_profile" {
 # ---------------------------
 data "aws_ami" "ubuntu" {
   most_recent = true
-  owners      = ["099720109477"] # Canonical Ubuntu
+  owners      = ["099720109477"]
 
   filter {
     name   = "name"
@@ -209,12 +202,15 @@ resource "aws_instance" "app_server" {
   subnet_id              = aws_subnet.public.id
   vpc_security_group_ids = [aws_security_group.app1_sg.id]
   iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
+  key_name               = var.ec2_key_name
+  tags = { Name = "Prempeh-instance" }
 }
 
 # ---------------------------
 # RDS Instance
 # ---------------------------
 resource "aws_db_instance" "app_db" {
+  identifier             = var.db_name
   allocated_storage      = 20
   engine                 = "postgres"
   engine_version         = "17.6"
@@ -262,6 +258,6 @@ resource "aws_cloudwatch_metric_alarm" "cpu_alarm" {
   insufficient_data_actions = []
 
   dimensions = {
-    InstanceId = "i-0bcf602887eccd3ba"
+    InstanceId = aws_instance.app_server.id
   }
 }
