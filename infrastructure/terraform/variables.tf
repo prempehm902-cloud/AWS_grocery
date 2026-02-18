@@ -1,3 +1,4 @@
+
 # ---------------------------
 # AWS region
 # ---------------------------
@@ -135,4 +136,17 @@ variable "ec2_subnet_id" {
   description = "Subnet ID where EC2 instance will be launched"
   type        = string
   default     = "subnet-04fa2d03241c5b041"
+}
+
+# ---------------------------
+# S3 Bucket
+# ---------------------------
+variable "s3_bucket_name" {
+  description = "Name of the S3 bucket"
+  type        = string
+}
+
+variable "s3_bucket_tag_name" {
+  description = "Tag Name for S3 bucket"
+  type        = string
 }
