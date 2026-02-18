@@ -1,10 +1,12 @@
 resource "aws_s3_bucket" "avatars" {
-  bucket = "grocerymate-avatars-premps"
+  bucket = var.s3_bucket_name
 
-  tags = {
-    Name        = "grocerymate-avatars"
-    Environment = "Dev"
-  }
+  tags = merge(
+    var.common_tags,
+    {
+      Name = var.s3_bucket_tag_name
+    }
+  )
 }
 
 resource "aws_s3_bucket_public_access_block" "avatars" {
