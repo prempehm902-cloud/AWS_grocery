@@ -24,9 +24,13 @@ resource "aws_iam_instance_profile" "ec2_profile" {
 
 # EC2 Instance
 resource "aws_instance" "app_server" {
-  ami                    = "ami-015f3aa67b494b27e"
+  ami                    = "ami-0a6793a25df710b06"
   instance_type          = var.instance_type
   iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
   vpc_security_group_ids = [aws_security_group.app1_sg.id]
   subnet_id              = aws_subnet.public.id
+
+  tags = {
+    Name = "Prempeh-instance"
+  }
 }
