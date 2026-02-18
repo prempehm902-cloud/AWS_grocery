@@ -2,36 +2,47 @@
 variable "region" {
   description = "AWS region to deploy resources"
   type        = string
+  default     = "eu-central-1"
 }
 
 # EC2 instance
 variable "instance_type" {
   description = "EC2 instance type"
   type        = string
-  default     = "t2.micro"
+  default     = "t3.small"
 }
 
 variable "ec2_ami" {
   description = "EC2 AMI ID. Can be dynamically fetched."
   type        = string
-  default     = "" # empty, can use data source
+  default     = "ami-0a6793a25df710b06"
 }
 
 # Your public IP for SSH
 variable "my_ip" {
   description = "Your public IP for SSH access"
   type        = string
+  default     = "172.31.31.6"
+}
+
+# Key pair assigned at launch
+variable "ec2_key_name" {
+  description = "EC2 key pair name"
+  type        = string
+  default     = "Pee_masterschool"
 }
 
 # RDS / PostgreSQL
 variable "db_name" {
   description = "Database name"
   type        = string
+  default     = "grocery-db"
 }
 
 variable "db_username" {
   description = "RDS master username"
   type        = string
+  default     = "postgres"
 }
 
 variable "db_password" {
@@ -100,4 +111,18 @@ variable "private_az_2" {
   description = "Availability zone for private subnet 2"
   type        = string
   default     = "eu-central-1c"
+}
+
+# Subnet ID for this instance
+variable "ec2_subnet_id" {
+  description = "Subnet ID where EC2 instance will be launched"
+  type        = string
+  default     = "subnet-04fa2d03241c5b041"
+}
+
+# RDS Endpoint
+variable "db_endpoint" {
+  description = "RDS endpoint for grocery-db"
+  type        = string
+  default     = "grocery-db.cfqgiacie03r.eu-central-1.rds.amazonaws.com"
 }
