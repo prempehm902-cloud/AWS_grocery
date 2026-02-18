@@ -2,7 +2,7 @@
 # RDS Subnet Group (Private Subnets)
 # -----------------------------------
 resource "aws_db_subnet_group" "rds_subnet_group" {
-  name = "my-db-subnet-group"
+  name = var.db_subnet_group_name
 
   subnet_ids = [
     aws_subnet.private_subnet_1.id,
@@ -18,11 +18,11 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
 # RDS PostgreSQL Instance
 # -----------------------------------
 resource "aws_db_instance" "app_db" {
-  identifier             = "grocery-db"
+  identifier             = var.db_name
   allocated_storage      = 20
   engine                 = "postgres"
   engine_version         = "17.6"
-  instance_class         = "db.t3.micro"
+  instance_class         = var.db_instance_class
 
   db_name                = var.db_name
   username               = var.db_username
